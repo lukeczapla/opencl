@@ -64,9 +64,9 @@ Results:
 	B[0] = 4
 	C[0] = 32768
 Mean execution time: 
-	1 CPU: 10.334 ms;
-	GPU: 5.16529 ms.
-Performance gain: 1.00065x
+	1 CPU: 10.2875 sec;
+	GPU: 5.16649 sec.
+Performance gain: 0.991192x
 ```
 
 
@@ -74,4 +74,5 @@ Performance gain: 1.00065x
 
 I left the MacOSX x86_64-compiled "mult" executable for anyone with a Mac who just hopes it work and wants to see.
 
+## Questions / Essay Ideas - so if you run it 20 times what do you expect?
 
