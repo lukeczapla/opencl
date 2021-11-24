@@ -3,6 +3,7 @@
 #else
 #include <CL/cl.hpp>
 #endif
+#include <sys/time.h>
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -22,7 +23,7 @@ cl::Device device;    // GPU device used for calculation
 
 int main(){
     
-    clock_t start, end;
+    timeval t1, t2;
     const int NTIMES = 5;
     
 
@@ -47,30 +48,34 @@ int main(){
 
 
     // using the CPU
-    start = clock();
+    gettimeofday(&t1, NULL);
     for(int i = 0; i < NTIMES; i++){
         seqMultiplyMatrices(a.data(), b.data(), cs.data(), M, N, K);
     }
-    end = clock();
-    double seqTime = ((double)10e3 * (end - start)) / CLOCKS_PER_SEC / NTIMES;
+    gettimeofday(&t2, NULL);
+    long seconds = (t2.tv_sec - t1.tv_sec);
+    long micros = ((seconds * 1000000) + t2.tv_usec) - (t1.tv_usec);
+    double seqTime = (double)seconds + (double)micros/1000000;
 
 
     initializeDevice();
 
     // do GPU multiplication
-    start = clock();
+    gettimeofday(&t1, NULL);
     for (int i = 0; i < NTIMES; i++){
         gpuMultiplyMatrices(a.data(), b.data(), cp.data(), M, N, K);
     }
-    end = clock();
-    double gpuTime = ((double)10e3 * (end - start)) / CLOCKS_PER_SEC / NTIMES;
+    gettimeofday(&t2, NULL);
+    long secondsGPU = (t2.tv_sec - t1.tv_sec);
+    long microsGPU = ((seconds * 1000000) + t2.tv_usec) - (t1.tv_usec);
+    double gpuTime = (double)secondsGPU + (double)microsGPU/1000000;
 
 
     bool equal = checkEquals(cs.data(), cp.data(), ROWS_C, COLS_C);
 
     std::cout << "Status: " << (equal ? "SUCCESS" : "FAILURE") << std::endl;
     std::cout << "Results: \n\tA[0] = " << a[0] << "\n\tB[0] = " << b[0] << "\n\tC[0] = " << cp[0] << std::endl;
-    std::cout << "Mean execution time: \n\t1 CPU: " << seqTime << " ms;\n\tGPU: " << gpuTime << " ms." << std::endl;
+    std::cout << "Mean execution time: \n\t1 CPU: " << seqTime << " sec;\n\tGPU: " << gpuTime << " sec." << std::endl;
     std::cout << "Performance gain: " << ((seqTime - gpuTime) / gpuTime) << "x" << std::endl;
 
     return 0;
@@ -137,6 +142,7 @@ void initializeDevice() {
 
 
 void seqMultiplyMatrices(int *a, int *b, int *c, const int M, const int N, const int K) {
+    #pragma omp parallel for
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
             int sum = 0;

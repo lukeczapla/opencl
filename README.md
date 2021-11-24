@@ -1,6 +1,8 @@
 # Example for OpenCL Benchmark: Matrix multiplication
 
-Check that you have the latest NVIDIA or AMD drivers for OpenCL and then:
+## Linux
+
+Check that you have the latest NVIDIA or AMD kernel drivers first! For OpenCL:
 
 ```bash
 make
@@ -12,6 +14,7 @@ This was tested on Ubuntu/Pop!OS 20.04 and 21.04
 ## example output 
 ### (January 2021 - AMD Ryzen 5 3600 (1 hyperthreaded core / 12) vs. AMD RX580
 
+```
 device 0: Ellesmere
 Status: SUCCESS
 Results:
@@ -22,7 +25,7 @@ Mean execution time:
         1 CPU: 6450.41 ms;                        NOTE- REALLY "HYPERTHREADED CORE" 
         GPU: 51.112 ms.
 Performance gain: 125.201x
-
+```
 
 
 # Comments
@@ -43,13 +46,15 @@ Easier scripts for Linux and Mac
 ./buildmac
 ```
 
-Just run it on Mac with ./buildmac, they have some crazy directions online but I copied it for you because new OSX won't
-even let you just copy things into /System/Library/Frameworks/OpenCL.framework/Headers
+## OSX
+
+Just run it on Mac with ./buildmac, they have some crazy directions online but I copied it for you because new OSX's won't
+even let you just copy things into /System/Library/Frameworks/OpenCL.framework/Headers (they don't trust you?)
 
 Here's the joke benchmark, play with the device number and learn things too, it is not always as simple as simple thing
 above on Linux machine with AMD RX580
 
-
+```
 device 0: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
 device 1: Intel(R) UHD Graphics 630
 device 2: AMD Radeon Pro 5300M Compute Engine
@@ -59,10 +64,10 @@ Results:
 	B[0] = 4
 	C[0] = 32768
 Mean execution time: 
-	1 CPU: 10924.3 ms;
-	GPU: 4719.7 ms.
-Performance gain: 1.31461x
-
+	1 CPU: 10.334 ms;
+	GPU: 5.16529 ms.
+Performance gain: 1.00065x
+```
 
 
 # Happy hacking! :pirate_flag: 
