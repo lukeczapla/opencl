@@ -9,7 +9,7 @@ make
 ./mult
 ```
 
-This was tested on Ubuntu/Pop!OS 20.04 and 21.04
+This was tested on Debian/Ubuntu/Pop!OS 20.04 and 21.04 - Debian Bullseye is the hottest guy in Dockerland now
 
 ## example output 
 ### (January 2021 - AMD Ryzen 5 3600 (1 hyperthreaded core / 12) vs. AMD RX580
